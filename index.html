@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Portalı - STH MICE</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Login View -->
+    <div id="login-view">
+        <div class="auth-container">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Kullanıcı Girişi</h2>
+            <div id="login-error" class="alert alert-error hidden"></div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" id="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard View -->
+    <div id="dashboard-view" class="dashboard-layout hidden">
+        <aside class="sidebar">
+            <h2>STH MICE Admin</h2>
+            <nav>
+                <div class="nav-item active" onclick="showSection('forms-list')">My Forms</div>
+                <div class="nav-item" onclick="showSection('create-form')">Create New Form</div>
+                <div class="nav-item" onclick="showSection('users-list')">Manage Users</div>
+                <div class="nav-item" onclick="logout()">Logout</div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+
+            <!-- Forms List Section -->
+            <section id="forms-list-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">All Forms</h3>
+                        <button class="btn btn-primary" onclick="showSection('create-form')">+ New Form</button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Created At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="forms-table-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Create Form Section -->
+            <section id="create-form-section" class="hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Create New Form</h3>
+                        <button class="btn btn-secondary" onclick="showSection('forms-list')">Cancel</button>
+                    </div>
+                    <form id="create-form-form">
+                        <div class="form-group">
+                            <label class="form-label">Form Title</label>
+                            <input type="text" id="form-title" class="form-control"
+                                placeholder="e.g. Event Registration" required>
+                        </div>
+
+                        <!-- NEW: Header Image Input -->
+                        <div class="form-group">
+                            <label class="form-label">Header Image (Optional)</label>
+                            <input type="file" id="header-image-input" class="form-control" accept="image/*">
+                            <small style="color: var(--text-muted)">Image will appear at the top of the form</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea id="form-description" class="form-control"
+                                placeholder="Form description..."></textarea>
+                        </div>
+
+                        <div id="form-fields-container" style="margin-top: 2rem;">
+                            <h4>Form Fields</h4>
+                            <!-- Dynamic fields go here -->
+                        </div>
+
+                        <div style="margin-top: 1rem; margin-bottom: 2rem;">
+                            <button type="button" class="btn btn-secondary" onclick="addField()">+ Add Field</button>
+                        </div>
+
+                        <div style="border-top: 1px solid var(--border); padding-top: 1rem; text-align: right;">
+                            <button type="submit" class="btn btn-primary">Save Form</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Form Details / Submissions Section -->
+            <section id="form-details-section" class="hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title" id="detail-form-title">Form Title</h3>
+                        <div>
+                            <button class="btn btn-success" id="export-btn"
+                                style="background-color: var(--success); color: white; border: none;">Export
+                                Excel</button>
+                            <button class="btn btn-secondary" onclick="showSection('forms-list')">Back</button>
+                        </div>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table class="data-table" id="submissions-table">
+                            <thead>
+                                <!-- Dynamic Headers -->
+                            </thead>
+                            <tbody>
+                                <!-- Dynamic Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Users List Section -->
+            <section id="users-list-section" class="hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">User Management</h3>
+                        <button class="btn btn-primary" onclick="showCreateUserModal()">+ New User</button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Permissions</th>
+                                <th>Created At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Create/Edit User Modal (Simple Section for this MVP) -->
+            <section id="create-user-section" class="hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title" id="user-form-title">Create New User</h3>
+                        <button class="btn btn-secondary" onclick="showSection('users-list')">Cancel</button>
+                    </div>
+                    <form id="create-user-form">
+                        <input type="hidden" id="user-id">
+                        <div class="form-group">
+                            <label class="form-label">Username</label>
+                            <input type="text" id="user-username" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" id="user-password" class="form-control"
+                                placeholder="Leave blank to keep current password (if editing)">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Permissions</label>
+                            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                                <label><input type="checkbox" class="user-permission" value="fill"> Fill Forms</label>
+                                <label><input type="checkbox" class="user-permission" value="edit"> Edit Forms</label>
+                                <label><input type="checkbox" class="user-permission" value="delete"> Delete
+                                    Forms</label>
+                            </div>
+                        </div>
+
+                        <div style="text-align: right; margin-top: 2rem;">
+                            <button type="submit" class="btn btn-primary">Save User</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="app-admin.js"></script>
+</body>
+
+</html>

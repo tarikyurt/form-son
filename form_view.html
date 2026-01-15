@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STH MICE Event Forms</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <header class="hero-header">
+        <h1>STH Forms</h1>
+        <div style="display: flex; gap: 0.5rem;">
+            <button id="admin-panel-btn" onclick="window.location.href='index.html'" class="btn btn-secondary hidden"
+                style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; cursor: pointer;">Admin
+                Panel</button>
+            <button onclick="logout()" class="btn btn-secondary"
+                style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; cursor: pointer;">Çıkış
+                Yap</button>
+        </div>
+    </header>
+
+    <main class="main-content" style="max-width: 800px; margin: 0 auto;">
+
+        <!-- Forms List (Landing Page) -->
+        <div id="forms-list-view" class="hidden">
+            <h2 style="margin-bottom: 1.5rem;">Mevcut Formlar</h2>
+            <div id="forms-list-container">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Single Form View -->
+        <div id="form-view" class="hidden">
+            <!-- The original "Back to List" button is removed as per the instruction's intent to replace hardcoded links -->
+
+            <div class="card">
+                <div class="card-header" style="flex-direction: column; align-items: flex-start;">
+                    <h2 class="card-title" id="form-title" style="font-size: 1.75rem; color: var(--primary);"></h2>
+                    <p id="form-description" style="color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1rem;">
+                    </p>
+                    <a href="#" onclick="window.location.href = window.location.pathname; return false;"
+                        style="text-decoration: none; color: var(--text-muted); font-size: 0.9rem;">
+                        &larr; Formlara Dön
+                    </a>
+                </div>
+
+                <form id="submission-form">
+                    <div id="form-fields" style="margin-bottom: 2rem;">
+                        <!-- Dynamic Fields -->
+                    </div>
+
+                    <button type="submit" class="btn btn-primary"
+                        style="width: 100%; font-size: 1.1rem; padding: 0.75rem;">Gönder</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div id="success-view" class="hidden">
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <h2 style="color: var(--success); margin-bottom: 1rem;">Başarıyla Gönderildi!</h2>
+                <p>Formu doldurduğunuz için teşekkür ederiz.</p>
+                <div style="margin-top: 2rem;">
+                    <button onclick="window.location.href = window.location.pathname" class="btn btn-primary">Ana
+                        Sayfaya Dön</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Logos -->
+        <div
+            style="text-align: center; margin-top: 3rem; margin-bottom: 2rem; border-top: 1px solid var(--border); padding-top: 2rem;">
+            <img src="assets/footer-logos.png" alt="Partners" style="max-height: 160px; max-width: 100%;">
+        </div>
+
+    </main>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
